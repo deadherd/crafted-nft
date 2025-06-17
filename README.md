@@ -1,13 +1,17 @@
-# Sample Hardhat Project
+# Crafted Collection
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This repository contains an upgradeable ERC‑721A contract used to manage the **Crafted Collection** NFT series. The collection is limited to `888` special edition tokens. Each token stores on‑chain traits that can be updated by an authorised crafter account. The contract includes:
 
-Try running some of the following tasks:
+* Access control using `ADMIN_ROLE` and `CRAFTER_ROLE`.
+* Upgradeability via UUPS pattern.
+* Pausable and re‑entrancy safe minting and withdrawals.
+* ERC‑2981 royalty support and queryable token enumeration.
+* Events for minting, trait updates, metadata updates and withdrawals.
+
+### Useful commands
 
 ```shell
-npx hardhat help
+npx hardhat compile
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
+npx hardhat run scripts/deploy.js --network <network>
 ```
