@@ -1,0 +1,20 @@
+{
+  "name": "crafted-nft-factory",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.js --network base_sepolia",
+    "upgrade": "npx hardhat run scripts/upgrade.js --network base_sepolia"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
+    "dotenv": "^16.3.1",
+    "erc721a": "^4.2.3"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@openzeppelin/hardhat-upgrades": "^2.3.0",
+    "hardhat": "^2.21.0"
+  }
+}
