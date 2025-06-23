@@ -103,6 +103,18 @@ contract CraftedCollection is
         emit Minted(msg.sender, quantity);
     }
 
+    /// @notice Mint tokens without payment. Only callable by admins.
+    /// @param to The recipient of the minted tokens.
+    /// @param quantity Number of tokens to mint.
+    function adminMint(address to, uint256 quantity) external onlyRole(ADMIN_ROLE) {
+        if (to == address(0)) revert ZeroAddress();
+        if (quantity == 0) revert InvalidToken();
+        if (totalSupply() + quantity > MAX_SUPPLY) revert MaxSupplyReached();
+
+        _safeMint(to, quantity);
+        emit Minted(to, quantity);
+    }
+
     // TRAIT MANAGEMENT
     function updateTraits(uint256 tokenId, Traits calldata newTraits) external onlyRole(CRAFTER_ROLE) {
         if (!_exists(tokenId)) revert InvalidToken();
