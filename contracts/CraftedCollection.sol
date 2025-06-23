@@ -25,7 +25,9 @@ contract CraftedCollection is
     bytes32 public constant CRAFTER_ROLE = keccak256("CRAFTER_ROLE");
 
     uint256 public constant MAX_SUPPLY = 888;
-    uint256 public constant MINT_PRICE = 0.01 ether;
+    uint256 public mintPrice;
+
+    uint256 public maxWalletHoldings;
 
     string private _baseTokenURI;
 
@@ -47,6 +49,8 @@ contract CraftedCollection is
     error MaxSupplyReached();
     error InsufficientPayment();
     error MetadataIsFrozen();
+    error MaxWalletLimit();
+    error FallbackNotAllowed();
 
     event TraitsUpdated(uint256 indexed tokenId, Traits traits);
     event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
@@ -55,6 +59,9 @@ contract CraftedCollection is
     event Minted(address indexed to, uint256 quantity);
     event Withdraw(address indexed recipient, uint256 amount);
     event CraftingInitialized();
+    event MintPriceUpdated(uint256 newPrice);
+    event MaxWalletHoldingsUpdated(uint256 newLimit);
+    event Received(address indexed sender, uint256 amount);
 
     function supportsInterface(bytes4 interfaceId)
         public
@@ -78,6 +85,9 @@ contract CraftedCollection is
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(CRAFTER_ROLE, msg.sender);
 
+        mintPrice = 0.03 ether;
+        maxWalletHoldings = 3;
+
         _setDefaultRoyalty(msg.sender, 500); // 5% royalties
 
         emit CraftingInitialized();
@@ -87,7 +97,8 @@ contract CraftedCollection is
     function publicMint(uint256 quantity) external payable whenNotPaused nonReentrant {
         if (quantity == 0) revert InvalidToken();
         if (totalSupply() + quantity > MAX_SUPPLY) revert MaxSupplyReached();
-        if (msg.value < MINT_PRICE * quantity) revert InsufficientPayment();
+        if (msg.value < mintPrice * quantity) revert InsufficientPayment();
+        if (balanceOf(msg.sender) + quantity > maxWalletHoldings) revert MaxWalletLimit();
 
         _safeMint(msg.sender, quantity);
         emit Minted(msg.sender, quantity);
@@ -130,6 +141,16 @@ contract CraftedCollection is
         _setDefaultRoyalty(receiver, feeNumerator);
     }
 
+    function setMintPrice(uint256 newPrice) external onlyRole(ADMIN_ROLE) {
+        mintPrice = newPrice;
+        emit MintPriceUpdated(newPrice);
+    }
+
+    function setMaxWalletHoldings(uint256 newLimit) external onlyRole(ADMIN_ROLE) {
+        maxWalletHoldings = newLimit;
+        emit MaxWalletHoldingsUpdated(newLimit);
+    }
+
    function tokenURI(uint256 tokenId) public view override returns (string memory) {
         if (!_exists(tokenId)) revert InvalidToken();
         return string(abi.encodePacked(_baseTokenURI, tokenId.toString(), ".json"));
@@ -137,6 +158,18 @@ contract CraftedCollection is
 
     function _baseURI() internal view override returns (string memory) {
         return _baseTokenURI;
+    }
+
+    function _beforeTokenTransfers(
+        address from,
+        address to,
+        uint256 startTokenId,
+        uint256 quantity
+    ) internal override {
+        if (to != address(0) && to != from) {
+            if (balanceOf(to) + quantity > maxWalletHoldings) revert MaxWalletLimit();
+        }
+        super._beforeTokenTransfers(from, to, startTokenId, quantity);
     }
 
     // UPGRADEABLE PROXY AUTH
@@ -158,9 +191,11 @@ contract CraftedCollection is
         emit Withdraw(recipient, balance);
     }
 
-    receive() external payable {}
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
 
     fallback() external payable {
-        revert();
+        revert FallbackNotAllowed();
     }
 }
