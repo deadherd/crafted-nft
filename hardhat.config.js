@@ -10,5 +10,10 @@ module.exports = {
       chainId: 84532,
       accounts: [process.env.PRIVATE_KEY],
     },
+    base: {
+      url: process.env.BASE_MAINNET_RPC,
+      chainId: 8453,
+      accounts: [process.env.PRIVATE_KEY],
+    },
   },
 }
