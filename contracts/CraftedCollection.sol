@@ -174,11 +174,21 @@ contract CraftedCollection is
         emit CollectionDetailsUpdated(newName, newSymbol);
     }
 
-    function name() public view override returns (string memory) {
+    function name()
+        public
+        view
+        override(ERC721AUpgradeable, IERC721AUpgradeable)
+        returns (string memory)
+    {
         return _collectionName;
     }
 
-    function symbol() public view override returns (string memory) {
+    function symbol()
+        public
+        view
+        override(ERC721AUpgradeable, IERC721AUpgradeable)
+        returns (string memory)
+    {
         return _collectionSymbol;
     }
 
