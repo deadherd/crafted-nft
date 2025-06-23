@@ -39,4 +39,20 @@ describe("CraftedCollection", function () {
     const traits = { code: "GEN", artVersion: "v1", metadataURI: "ipfs://" , level: 1, power: 1, rarity: 1 };
     await expect(proxy.updateTraits(0, traits)).to.emit(proxy, "TraitsUpdated");
   });
+
+  it("allows admin to mint for free", async function () {
+    const { proxy, owner, user } = await deploy();
+    await expect(proxy.connect(owner).adminMint(user.address, 1))
+      .to.emit(proxy, "Minted")
+      .withArgs(user.address, 1);
+    expect(await proxy.totalSupply()).to.equal(1);
+  });
+
+  it("prevents non-admin from calling adminMint", async function () {
+    const { proxy, user } = await deploy();
+    await expect(proxy.connect(user).adminMint(user.address, 1)).to.be.revertedWithCustomError(
+      proxy,
+      "AccessControlUnauthorizedAccount"
+    );
+  });
 });
