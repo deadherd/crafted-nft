@@ -30,6 +30,8 @@ contract CraftedCollection is
     uint256 public maxWalletHoldings;
 
     string private _baseTokenURI;
+    string private _collectionName;
+    string private _collectionSymbol;
 
     struct Traits {
         string code;
@@ -61,6 +63,7 @@ contract CraftedCollection is
     event CraftingInitialized();
     event MintPriceUpdated(uint256 newPrice);
     event MaxWalletHoldingsUpdated(uint256 newLimit);
+    event CollectionDetailsUpdated(string newName, string newSymbol);
     event Received(address indexed sender, uint256 amount);
 
     function supportsInterface(bytes4 interfaceId)
@@ -79,6 +82,9 @@ contract CraftedCollection is
         __ReentrancyGuard_init();
         __ERC2981_init();
         __UUPSUpgradeable_init();
+
+        _collectionName = name_;
+        _collectionSymbol = symbol_;
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(ADMIN_ROLE, msg.sender);
@@ -160,6 +166,20 @@ contract CraftedCollection is
     function setMaxWalletHoldings(uint256 newLimit) external onlyRole(ADMIN_ROLE) {
         maxWalletHoldings = newLimit;
         emit MaxWalletHoldingsUpdated(newLimit);
+    }
+
+    function setCollectionDetails(string calldata newName, string calldata newSymbol) external onlyRole(ADMIN_ROLE) {
+        _collectionName = newName;
+        _collectionSymbol = newSymbol;
+        emit CollectionDetailsUpdated(newName, newSymbol);
+    }
+
+    function name() public view override returns (string memory) {
+        return _collectionName;
+    }
+
+    function symbol() public view override returns (string memory) {
+        return _collectionSymbol;
     }
 
     function tokenURI(uint256 tokenId)

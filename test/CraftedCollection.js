@@ -55,4 +55,11 @@ describe("CraftedCollection", function () {
       "AccessControlUnauthorizedAccount"
     );
   });
+
+  it("updates collection name and symbol", async function () {
+    const { proxy, owner } = await deploy();
+    await proxy.connect(owner).setCollectionDetails("New Name", "NEW");
+    expect(await proxy.name()).to.equal("New Name");
+    expect(await proxy.symbol()).to.equal("NEW");
+  });
 });

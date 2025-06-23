@@ -47,9 +47,14 @@ npx hardhat run --network base --script "(await ethers.getContractFactory('Craft
 
 or update the wallet cap similarly using `setMaxWalletHoldings`.
 
-3. **Reveal Metadata** – once artwork is ready, run `setBaseURI` again with the final metadata location.
+3. **Rename Collection** – change the name or ticker after deployment:
 
-4. **Withdraw Funds** – the `withdraw` script sends contract balance to the recipient wallet set in the script. Update `scripts/withdraw.js` with your treasury address.
+```shell
+npx hardhat run --network base --script "(await ethers.getContractFactory('CraftedCollection')).attach('<proxy>').setCollectionDetails('New Name','NEW')"
+```
+4. **Reveal Metadata** – once artwork is ready, run `setBaseURI` again with the final metadata location.
+
+5. **Withdraw Funds** – the `withdraw` script sends contract balance to the recipient wallet set in the script. Update `scripts/withdraw.js` with your treasury address.
 
 ## Running Tests
 
