@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract CraftedCollection is
@@ -19,7 +19,7 @@ contract CraftedCollection is
     UUPSUpgradeable
 {
     using Strings for uint256;
-    using AddressUpgradeable for address payable;
+    using Address for address payable;
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant CRAFTER_ROLE = keccak256("CRAFTER_ROLE");
@@ -66,8 +66,7 @@ contract CraftedCollection is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        virtual
-        override(ERC721AUpgradeable, AccessControlUpgradeable, ERC2981Upgradeable)
+        override(ERC721AUpgradeable, IERC721AUpgradeable, AccessControlUpgradeable, ERC2981Upgradeable)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
@@ -151,10 +150,16 @@ contract CraftedCollection is
         emit MaxWalletHoldingsUpdated(newLimit);
     }
 
-   function tokenURI(uint256 tokenId) public view override returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721AUpgradeable, IERC721AUpgradeable)
+        returns (string memory)
+    {
         if (!_exists(tokenId)) revert InvalidToken();
         return string(abi.encodePacked(_baseTokenURI, tokenId.toString(), ".json"));
     }
+
 
     function _baseURI() internal view override returns (string memory) {
         return _baseTokenURI;
