@@ -3,7 +3,15 @@ require('@openzeppelin/hardhat-upgrades')
 require('dotenv').config()
 
 module.exports = {
-  solidity: '0.8.24',
+  solidity: {
+    version: '0.8.24',
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 100,
+      },
+    },
+  },
   networks: {
     base_sepolia: {
       url: process.env.BASE_SEPOLIA_RPC,

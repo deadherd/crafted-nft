@@ -16,6 +16,10 @@ npx hardhat test
 npx hardhat run scripts/deploy.js --network <network>
 ```
 
+The Hardhat config enables the Solidity optimizer with 100 runs to keep the
+contract bytecode small enough for mainnet deployment. No additional steps are
+required when compiling.
+
 ## Deploying to Base Mainnet
 
 1. Copy `.env.example` to `.env` and set `PRIVATE_KEY` with your deployer wallet and `BASE_MAINNET_RPC` with the RPC URL for Base mainnet. Optional: `BASE_SEPOLIA_RPC` for testing.
