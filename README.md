@@ -16,6 +16,24 @@ npx hardhat test
 npx hardhat run scripts/deploy.js --network <network>
 ```
 
+### CLI scripts
+
+- `adminMint.js` – mint tokens as an admin without payment
+- `freezeMetadata.js` – permanently lock metadata for a token
+- `getTraits.js` – view the on-chain traits for a token
+- `grantRole.js` – grant roles such as `CRAFTER_ROLE`
+- `mint.js` – mint tokens from the CLI
+- `pause.js`/`unpause.js` – pause or resume minting
+- `setBaseURI.js` – set the base metadata URI
+- `setCollectionDetails.js` – rename the collection
+- `setMaxWalletHoldings.js` – update the wallet holding limit
+- `setMintPrice.js` – change the mint price
+- `setRoyaltyInfo.js` – configure royalties
+- `updateMetadata.js` – update a token metadata URI
+- `updateTraits.js` – modify token traits
+- `upgrade.js` – upgrade the implementation
+- `withdraw.js` – withdraw contract balance
+
 The Hardhat config enables the Solidity optimizer with 100 runs to keep the
 contract bytecode small enough for mainnet deployment. No additional steps are
 required when compiling.
