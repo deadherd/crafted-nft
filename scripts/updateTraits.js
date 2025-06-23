@@ -1,14 +1,15 @@
 const { ethers } = require('hardhat')
 
 async function main() {
-  const proxyAddress = '0x2e51a8FdC067e415CFD5d00b9add5C6Af72d676c'
-  const CraftedCollection = await ethers.getContractFactory('CraftedCollection')
-  const contract = await CraftedCollection.attach(proxyAddress)
+  const proxyAddress = '0x76065074344824a3201E46b84FA6611384bD7E92'
+  const MadeForRats = await ethers.getContractFactory('MadeForRats')
+  const contract = await MadeForRats.attach(proxyAddress)
 
+  /* E X A M P L E */
   const traits = {
     code: 'GENESIS',
     artVersion: 'v1.0',
-    metadataURI: 'ipfs://QmWUAmvYFbdHGZhqvasxaCURBw4PRUUewJDmgnhPQf1Kg7/',
+    metadataURI: 'ipfs://QmT5oZQLVBHZq3F3bWJzL9ab7QQPqjAq1gCNgE3aabxve3/',
     level: 1,
     power: 50,
     rarity: 10,

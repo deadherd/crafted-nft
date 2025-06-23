@@ -2,11 +2,11 @@
 
 This repository contains an upgradeable ERC‑721A contract used to manage the **Crafted Collection** NFT series. The collection is limited to `888` special edition tokens. Each token stores on‑chain traits that can be updated by an authorised crafter account. The contract includes:
 
-* Access control using `ADMIN_ROLE` and `CRAFTER_ROLE`.
-* Upgradeability via UUPS pattern.
-* Pausable and re‑entrancy safe minting and withdrawals.
-* ERC‑2981 royalty support and queryable token enumeration.
-* Events for minting, trait updates, metadata updates and withdrawals.
+- Access control using `ADMIN_ROLE` and `CRAFTER_ROLE`.
+- Upgradeability via UUPS pattern.
+- Pausable and re‑entrancy safe minting and withdrawals.
+- ERC‑2981 royalty support and queryable token enumeration.
+- Events for minting, trait updates, metadata updates and withdrawals.
 
 ### Useful commands
 
@@ -42,7 +42,7 @@ npx hardhat run scripts/setBaseURI.js --network base
 2. **Update Mint Price or Wallet Limit** – if needed:
 
 ```shell
-npx hardhat run --network base --script "(await ethers.getContractFactory('CraftedCollection')).attach('<proxy>').setMintPrice(ethers.parseEther('0.05'))"
+npx hardhat run --network base --script "(await ethers.getContractFactory('MadeForRats')).attach('<proxy>').setMintPrice(ethers.parseEther('0.05'))"
 ```
 
 or update the wallet cap similarly using `setMaxWalletHoldings`.
@@ -50,8 +50,9 @@ or update the wallet cap similarly using `setMaxWalletHoldings`.
 3. **Rename Collection** – change the name or ticker after deployment:
 
 ```shell
-npx hardhat run --network base --script "(await ethers.getContractFactory('CraftedCollection')).attach('<proxy>').setCollectionDetails('New Name','NEW')"
+npx hardhat run --network base --script "(await ethers.getContractFactory('MadeForRats')).attach('<proxy>').setCollectionDetails('New Name','NEW')"
 ```
+
 4. **Reveal Metadata** – once artwork is ready, run `setBaseURI` again with the final metadata location.
 
 5. **Withdraw Funds** – the `withdraw` script sends contract balance to the recipient wallet set in the script. Update `scripts/withdraw.js` with your treasury address.

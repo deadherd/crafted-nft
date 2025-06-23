@@ -1,8 +1,8 @@
 const { ethers, upgrades } = require('hardhat')
 
 async function main() {
-  const CraftedCollection = await ethers.getContractFactory('CraftedCollection')
-  const proxy = await upgrades.deployProxy(CraftedCollection, ['Made for Rats', 'CRAFT'], {
+  const MadeForRats = await ethers.getContractFactory('MadeForRats')
+  const proxy = await upgrades.deployProxy(MadeForRats, ['Made for Rats™', 'MFR'], {
     initializer: 'initialize',
   })
 

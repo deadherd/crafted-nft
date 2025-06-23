@@ -1,9 +1,9 @@
 const { ethers, upgrades } = require('hardhat')
 
 async function main() {
-  const proxyAddress = '0x2e51a8FdC067e415CFD5d00b9add5C6Af72d676c'
-  const CraftedCollection = await ethers.getContractFactory('CraftedCollection')
-  const upgraded = await upgrades.upgradeProxy(proxyAddress, CraftedCollection)
+  const proxyAddress = '0x76065074344824a3201E46b84FA6611384bD7E92'
+  const MadeForRats = await ethers.getContractFactory('MadeForRats')
+  const upgraded = await upgrades.upgradeProxy(proxyAddress, MadeForRats)
   console.log('✅ Upgrade complete')
 }
 
