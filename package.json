@@ -7,6 +7,7 @@
     "upgrade": "npx hardhat run scripts/upgrade.js --network base_sepolia"
   },
   "dependencies": {
+    "@api/opensea": "file:.api/apis/opensea",
     "@openzeppelin/contracts": "^5.0.1",
     "@openzeppelin/contracts-upgradeable": "^5.3.0",
     "dotenv": "^16.3.1",
