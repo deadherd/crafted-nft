@@ -33,6 +33,7 @@ npx hardhat run scripts/deploy.js --network <network>
 - `updateTraits.js` – modify token traits
 - `upgrade.js` – upgrade the implementation
 - `withdraw.js` – withdraw contract balance
+- `refreshOpenSea.js` – request a metadata refresh on OpenSea
 
 The Hardhat config enables the Solidity optimizer with 100 runs to keep the
 contract bytecode small enough for mainnet deployment. No additional steps are
@@ -72,8 +73,8 @@ npx hardhat run --network base --script "(await ethers.getContractFactory('MadeF
 ```
 
 4. **Reveal Metadata** – once artwork is ready, run `setBaseURI` again with the final metadata location.
-
 5. **Withdraw Funds** – the `withdraw` script sends contract balance to the recipient wallet set in the script. Update `scripts/withdraw.js` with your treasury address.
+6. **Refresh Metadata on OpenSea** – after changing a token URI, run `node scripts/refreshOpenSea.js` to clear the cache.
 
 ## Running Tests
 
