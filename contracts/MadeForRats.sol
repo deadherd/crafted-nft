@@ -6,6 +6,7 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -16,7 +17,8 @@ contract MadeForRats is
     PausableUpgradeable,
     ReentrancyGuardUpgradeable,
     ERC2981Upgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    OwnableUpgradeable
 {
     using Strings for uint256;
     using Address for address payable;
@@ -78,6 +80,7 @@ contract MadeForRats is
     function initialize(string memory name_, string memory symbol_) public initializerERC721A initializer {
         __ERC721A_init(name_, symbol_);
         __AccessControl_init();
+        __Ownable_init();
         __Pausable_init();
         __ReentrancyGuard_init();
         __ERC2981_init();
