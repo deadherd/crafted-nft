@@ -80,11 +80,11 @@ contract MadeForRats is
     function initialize(string memory name_, string memory symbol_) public initializerERC721A initializer {
         __ERC721A_init(name_, symbol_);
         __AccessControl_init();
-        __Ownable_init();
         __Pausable_init();
         __ReentrancyGuard_init();
         __ERC2981_init();
         __UUPSUpgradeable_init();
+        __Ownable_init(msg.sender);
 
         _collectionName = name_;
         _collectionSymbol = symbol_;
